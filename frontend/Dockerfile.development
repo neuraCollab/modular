@@ -1,0 +1,19 @@
+# Используем официальный образ Node.js версии 20 на базе Alpine для меньшего размера
+FROM node:20
+
+# Устанавливаем рабочую директорию внутри контейнера
+WORKDIR /app
+
+# Копируем файлы package.json и package-lock.json для установки зависимостей
+COPY package*.json /app/
+
+# Устанавливаем зависимости
+RUN npm install
+
+# Копируем остальные файлы проекта в контейнер
+COPY ./ /app/
+
+ARG VITE_API_URL=${VITE_API_URL}
+ 
+# Запускаем сервер разработки Vite
+CMD ["npm", "run", "dev", "--host"]

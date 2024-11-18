@@ -100,6 +100,7 @@ services:
       context: ./frontend
       args:
         - VITE_API_URL=http://localhost:8000
+        - WATCHPACK_POLLING=true
         - NODE_ENV=development
 
   playwright:
