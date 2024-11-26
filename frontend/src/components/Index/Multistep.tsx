@@ -27,7 +27,7 @@ const Form1: React.FC<{ control: any }> = ({ control }) => {
   return (
     <>
       <Heading w="100%" textAlign="center" fontWeight="normal" mb="2%">
-        User Registration
+        Заполните небольшую анкету
       </Heading>
       <Flex>
         <FormControl mr="5%">

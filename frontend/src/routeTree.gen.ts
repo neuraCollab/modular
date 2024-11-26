@@ -17,11 +17,14 @@ import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as BaseLayoutImport } from './routes/_base-layout'
+import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
 import { Route as BaseLayoutIndexImport } from './routes/_base-layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
-import { Route as LayoutAccountImport } from './routes/_layout/account'
+import { Route as BaseLayoutProfileImport } from './routes/_base-layout/profile'
+import { Route as BaseLayoutFindPersonImport } from './routes/_base-layout/find-person'
+import { Route as BaseLayoutProfileIdImport } from './routes/_base-layout/profile.$id'
 
 // Create/Update Routes
 
@@ -55,6 +58,11 @@ const BaseLayoutRoute = BaseLayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const LayoutDashboardRoute = LayoutDashboardImport.update({
+  path: '/dashboard',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const BaseLayoutIndexRoute = BaseLayoutIndexImport.update({
   path: '/',
   getParentRoute: () => BaseLayoutRoute,
@@ -75,9 +83,19 @@ const LayoutAdminRoute = LayoutAdminImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutAccountRoute = LayoutAccountImport.update({
-  path: '/account',
-  getParentRoute: () => LayoutRoute,
+const BaseLayoutProfileRoute = BaseLayoutProfileImport.update({
+  path: '/profile',
+  getParentRoute: () => BaseLayoutRoute,
+} as any)
+
+const BaseLayoutFindPersonRoute = BaseLayoutFindPersonImport.update({
+  path: '/find-person',
+  getParentRoute: () => BaseLayoutRoute,
+} as any)
+
+const BaseLayoutProfileIdRoute = BaseLayoutProfileIdImport.update({
+  path: '/$id',
+  getParentRoute: () => BaseLayoutProfileRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -108,9 +126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
-    '/_layout/account': {
-      preLoaderRoute: typeof LayoutAccountImport
-      parentRoute: typeof LayoutImport
+    '/_base-layout/find-person': {
+      preLoaderRoute: typeof BaseLayoutFindPersonImport
+      parentRoute: typeof BaseLayoutImport
+    }
+    '/_base-layout/profile': {
+      preLoaderRoute: typeof BaseLayoutProfileImport
+      parentRoute: typeof BaseLayoutImport
     }
     '/_layout/admin': {
       preLoaderRoute: typeof LayoutAdminImport
@@ -128,18 +150,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BaseLayoutIndexImport
       parentRoute: typeof BaseLayoutImport
     }
+    '/_base-layout/profile/$id': {
+      preLoaderRoute: typeof BaseLayoutProfileIdImport
+      parentRoute: typeof BaseLayoutProfileImport
+    }
+    '/_layout/dashboard': {
+      preLoaderRoute: typeof LayoutDashboardImport
+      parentRoute: typeof LayoutImport
+    }
   }
 }
 
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  BaseLayoutRoute.addChildren([BaseLayoutIndexRoute]),
+  BaseLayoutRoute.addChildren([
+    BaseLayoutFindPersonRoute,
+    BaseLayoutProfileRoute.addChildren([BaseLayoutProfileIdRoute]),
+    BaseLayoutIndexRoute,
+  ]),
   LayoutRoute.addChildren([
-    LayoutAccountRoute,
     LayoutAdminRoute,
     LayoutItemsRoute,
     LayoutSettingsRoute,
+    LayoutDashboardRoute,
   ]),
   LoginRoute,
   RecoverPasswordRoute,

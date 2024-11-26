@@ -13,10 +13,8 @@ function Dashboard() {
 
   return (
     <>
-      <Container maxW="full">
-        <Feature />
-        <Multistep />
-      </Container>
+      <Feature />
+      <Multistep />
     </>
   )
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Flex } from "@chakra-ui/react";
 import Pagination from "@choc-ui/paginator";
 
-const Pagination = () => {
+const CustomPagination = () => {
   return (
     <Flex
       w="full"
@@ -22,4 +22,4 @@ const Pagination = () => {
   );
 };
 
-export default Pagination;
+export default CustomPagination;

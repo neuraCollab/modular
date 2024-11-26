@@ -1,7 +1,13 @@
 import uuid
-
+from enum import Enum
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
+
+
+# Enum for User Types
+class UserType(str, Enum):
+    EMPLOYER = "employer"
+    JOB_SEEKER = "job_seeker"
 
 
 # Shared properties
@@ -10,6 +16,7 @@ class UserBase(SQLModel):
     is_active: bool = True
     is_superuser: bool = False
     full_name: str | None = Field(default=None, max_length=255)
+    user_type: UserType = Field(default=UserType.JOB_SEEKER)  # Default to Job Seeker
 
 
 # Properties to receive via API on creation
@@ -21,12 +28,14 @@ class UserRegister(SQLModel):
     email: EmailStr = Field(max_length=255)
     password: str = Field(min_length=8, max_length=40)
     full_name: str | None = Field(default=None, max_length=255)
+    user_type: UserType = Field(default=UserType.JOB_SEEKER)
 
 
 # Properties to receive via API on update, all are optional
 class UserUpdate(UserBase):
     email: EmailStr | None = Field(default=None, max_length=255)  # type: ignore
     password: str | None = Field(default=None, min_length=8, max_length=40)
+    user_type: UserType | None = None
 
 
 class UserUpdateMe(SQLModel):

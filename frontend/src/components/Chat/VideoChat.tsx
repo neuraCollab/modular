@@ -24,7 +24,7 @@ interface IceCandidate {
 const VideoChat: React.FC = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
-  const [users, setUsers] = useState<string[]>([]);
+  const [users, setUsers] = useState<string[]>(["miki"]);
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
   const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
   const peerRef = useRef<RTCPeerConnection>(
@@ -150,7 +150,7 @@ const VideoChat: React.FC = () => {
             autoPlay
             playsInline
             muted
-            style={{ width: '100%', borderRadius: '8px' }}
+            style={{ width: '100%', borderRadius: '8px', background: "blue" }}
           />
         </Box>
         <Box>
@@ -158,7 +158,7 @@ const VideoChat: React.FC = () => {
             ref={remoteVideoRef}
             autoPlay
             playsInline
-            style={{ width: '100%', borderRadius: '8px' }}
+            style={{ width: '100%', borderRadius: '8px', background: "red"}}
           />
         </Box>
       </Flex>
