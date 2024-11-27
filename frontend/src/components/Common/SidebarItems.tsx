@@ -2,6 +2,8 @@ import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
 import { FiBriefcase, FiHome, FiSettings, FiUsers } from "react-icons/fi"
+import { FaPersonCirclePlus } from "react-icons/fa6";
+
 
 import type { UserPublic } from "../../client"
 
@@ -9,6 +11,7 @@ const items = [
   { icon: FiHome, title: "Dashboard", path: "/dashboard" },
   { icon: FiBriefcase, title: "Items", path: "/items" },
   { icon: FiSettings, title: "User Settings", path: "/settings" },
+  { icon: FaPersonCirclePlus, title: "Найти человека", path: "/find-person" }, 
 ]
 
 interface SidebarItemsProps {

@@ -7,6 +7,7 @@ import {
   type Body_login_login_access_token as AccessToken,
   type ApiError,
   LoginService,
+  TDataReadUsers,
   type UserPublic,
   type UserRegister,
   UsersService,
@@ -64,7 +65,13 @@ const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      navigate({ to: "/" })
+      
+      // Redirect based on user role
+      if (user?.is_superuser) {
+        navigate({ to: "/dashboard" })
+      } else {
+        navigate({ to: "/profile" })
+      }
     },
     onError: (err: ApiError) => {
       let errDetail = (err.body as any)?.detail

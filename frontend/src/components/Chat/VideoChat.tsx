@@ -1,189 +1,84 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Flex, Text,  VStack } from '@chakra-ui/react';
-import io, { Socket } from 'socket.io-client';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Box, Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
+import { FiPhone, FiVideo } from 'react-icons/fi';
+import { socket } from '../communication';
 
-interface UserListUpdate {
-  userIds: string[];
-}
-
-interface MediaOffer {
-  offer: RTCSessionDescriptionInit;
-  from: string;
-}
-
-interface MediaAnswer {
-  answer: RTCSessionDescriptionInit;
-  from: string;
-}
-
-interface IceCandidate {
-  candidate: RTCIceCandidateInit;
-  to: string;
-}
-
-const VideoChat: React.FC = () => {
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [selectedUser, setSelectedUser] = useState<string | null>(null);
-  const [users, setUsers] = useState<string[]>(["miki"]);
-  const localVideoRef = useRef<HTMLVideoElement | null>(null);
-  const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
-  const peerRef = useRef<RTCPeerConnection>(
-    new RTCPeerConnection({
-      iceServers: [
-        {
-          urls: 'stun:stun.stunprotocol.org',
-        },
-      ],
-    })
-  );
+function useClientID() {
+  const [clientID, setClientID] = useState('');
 
   useEffect(() => {
-    const socketInstance = io({ path: '/ws/socket.io' });
-    setSocket(socketInstance);
-
-    socketInstance.on('connect', handleSocketConnected);
-    socketInstance.on('update-user-list', onUpdateUserList);
-    socketInstance.on('mediaOffer', handleMediaOffer);
-    socketInstance.on('mediaAnswer', handleMediaAnswer);
-    socketInstance.on('remotePeerIceCandidate', handleRemoteIceCandidate);
-
-    peerRef.current.onicecandidate = handleIceCandidate;
-    peerRef.current.addEventListener('track', handleTrackEvent);
-
-    return () => {
-      socketInstance.disconnect();
-    };
+    socket.on('init', ({ id }) => {
+      document.title = `${id} - VideoCall`;
+      setClientID(id);
+    });
   }, []);
 
-  const handleSocketConnected = async () => {
-    await startLocalStream();
-    socket?.emit('requestUserList');
-  };
+  return clientID;
+}
 
-  const startLocalStream = async () => {
-    const constraints = { audio: true, video: true };
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    if (localVideoRef.current) {
-      localVideoRef.current.srcObject = stream;
-    }
-    stream.getTracks().forEach((track) => peerRef.current.addTrack(track, stream));
-  };
+export default function MainWindow({ startCall }) {
+  const clientID = useClientID();
+  const { register, handleSubmit } = useForm();
+  const [friendID, setFriendID] = useState('');
 
-  const handleCall = async () => {
-    const localPeerOffer = await peerRef.current.createOffer();
-    await peerRef.current.setLocalDescription(localPeerOffer);
-
-    sendMediaOffer(localPeerOffer);
-  };
-
-  const handleMediaOffer = async (data: MediaOffer) => {
-    await peerRef.current.setRemoteDescription(
-      new RTCSessionDescription(data.offer)
-    );
-    const peerAnswer = await peerRef.current.createAnswer();
-    await peerRef.current.setLocalDescription(peerAnswer);
-
-    sendMediaAnswer(peerAnswer, data.from);
-  };
-
-  const handleMediaAnswer = async (data: MediaAnswer) => {
-    await peerRef.current.setRemoteDescription(
-      new RTCSessionDescription(data.answer)
-    );
-  };
-
-  const handleIceCandidate = (event: RTCPeerConnectionIceEvent) => {
-    if (event.candidate && selectedUser) {
-      sendIceCandidate(event.candidate);
+  const callWithVideo = (video) => {
+    const config = { audio: true, video };
+    if (friendID) {
+      startCall(true, friendID, config);
     }
   };
 
-  const handleRemoteIceCandidate = async (data: IceCandidate) => {
-    try {
-      const candidate = new RTCIceCandidate(data.candidate);
-      await peerRef.current.addIceCandidate(candidate);
-    } catch (error) {
-      console.error('Error adding received ICE candidate', error);
-    }
-  };
-
-  const handleTrackEvent = (event: RTCTrackEvent) => {
-    const [stream] = event.streams;
-    if (remoteVideoRef.current) {
-      remoteVideoRef.current.srcObject = stream;
-    }
-  };
-
-  const onUpdateUserList = (data: UserListUpdate) => {
-    setUsers(data.userIds.filter((id) => id !== socket?.id));
-  };
-
-  const sendMediaOffer = (localPeerOffer: RTCSessionDescriptionInit) => {
-    socket?.emit('mediaOffer', {
-      offer: localPeerOffer,
-      from: socket.id,
-      to: selectedUser,
-    });
-  };
-
-  const sendMediaAnswer = (peerAnswer: RTCSessionDescriptionInit, to: string) => {
-    socket?.emit('mediaAnswer', {
-      answer: peerAnswer,
-      from: socket?.id,
-      to,
-    });
-  };
-
-  const sendIceCandidate = (candidate: RTCIceCandidateInit) => {
-    socket?.emit('iceCandidate', {
-      to: selectedUser,
-      candidate,
-    });
+  const onSubmit = ({ friendID }) => {
+    setFriendID(friendID);
   };
 
   return (
-    <VStack spacing={4} align="stretch" p={4}>
-      <Flex justifyContent="space-between">
-        <Box>
-          <video
-            ref={localVideoRef}
-            autoPlay
-            playsInline
-            muted
-            style={{ width: '100%', borderRadius: '8px', background: "blue" }}
-          />
-        </Box>
-        <Box>
-          <video
-            ref={remoteVideoRef}
-            autoPlay
-            playsInline
-            style={{ width: '100%', borderRadius: '8px', background: "red"}}
-          />
-        </Box>
-      </Flex>
-      <Button onClick={handleCall} colorScheme="blue">
-        Call
-      </Button>
-      <Box>
-        {users.map((user) => (
-          <Flex
-            key={user}
-            p={2}
-            borderWidth="1px"
-            borderRadius="md"
-            alignItems="center"
-            justifyContent="space-between"
-            bg={user === selectedUser ? 'blue.100' : 'white'}
-            cursor="pointer"
-            onClick={() => setSelectedUser(user)}
-          >
-            <Text>{user}</Text>
-          </Flex>
-        ))}
+    <Flex direction="column" align="center" justify="center" p={6} bg="gray.50" borderRadius="md" boxShadow="lg">
+      <Box mb={6} textAlign="center">
+        <Heading as="h3" size="lg" mb={2}>
+          Hi, your ID is
+        </Heading>
+        <Input
+          value={clientID}
+          isReadOnly
+          textAlign="center"
+          borderColor="gray.300"
+          size="lg"
+          variant="filled"
+        />
+        <Text mt={4} fontSize="md">
+          Get started by calling a friend below
+        </Text>
       </Box>
-    </VStack>
-  );
-};
 
-export default VideoChat;
+      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+        <Flex direction="column" align="center" gap={4}>
+          <Input
+            placeholder="Your friend ID"
+            size="lg"
+            {...register('friendID', { required: true })}
+            borderColor="gray.300"
+            focusBorderColor="blue.500"
+          />
+          <Flex justify="space-around" gap={4} w="100%">
+            <Button
+              leftIcon={<FiVideo />}
+              colorScheme="blue"
+              onClick={() => callWithVideo(true)}
+            >
+              Video Call
+            </Button>
+            <Button
+              leftIcon={<FiPhone />}
+              colorScheme="green"
+              onClick={() => callWithVideo(false)}
+            >
+              Audio Call
+            </Button>
+          </Flex>
+        </Flex>
+      </form>
+    </Flex>
+  );
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Map, Placemark } from "@pbe/react-yandex-maps";
+import { Box } from "@chakra-ui/react";
 
 interface User {
   id: number;
@@ -48,11 +49,12 @@ const Maps = () => {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <Box width={"100%"}> 
       <Map
+      width={"100%"}
         defaultState={{ center: [59.9342802, 30.3350986], zoom: 12 }} // Centered on Saint Petersburg
-        width="100%"
-        height="100%"
+        // width="100%"
+        // height="100%"
       >
         {/* User location */}
         {userLocation && (
@@ -84,7 +86,7 @@ const Maps = () => {
           />
         ))}
       </Map>
-    </div>
+    </Box>
   );
 };
 

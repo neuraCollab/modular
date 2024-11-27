@@ -4,12 +4,13 @@ import Feature from "../../components/Index/Feature"
 import Multistep from "../../components/Index/Multistep"
 import useAuth from "../../hooks/useAuth"
 import React from 'react'
-import FindPerson from "../../components/Profile/FindPerson"
+import FindPerson from "../../components/FindPerson/FindPerson"
 import Pagination from "../../components/Profile/Pagination"
 import Card from "../../components/Profile/Card"
 import ChatComponent from "../../components/Chat/ChatComponent"
+import VideoChat from "../../components/Chat/VideoChat"
 
-export const Route = createFileRoute("/_base-layout/profile")({
+export const Route = createFileRoute("/_layout/profile")({
   loader: ({ params }) => console.log(params),
   component: Profile,
 })
@@ -22,6 +23,7 @@ function Profile() {
     <>
       {/* <FindPerson /> */}
       {/* <ChatComponent /> */}
+      <VideoChat />
       <Outlet />
     </>
   )

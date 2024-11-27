@@ -16,7 +16,7 @@ const Header: React.FC = () => {
   return (
     <chakra.header>
       <chakra.nav bg={bg} shadow="base">
-        <Box mx="auto" px={6} py={3} maxW="full">
+        <Box mx="auto" px={[4, 6, 8]} py={4} maxW="full">
           <Box
             display={{ md: 'flex' }}
             alignItems={{ md: 'center' }}
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
                       display="block"
                       mx={4}
                       mt={[2, 0]}
-                      fontSize="sm"
+                      fontSize="md"
                       color="gray.700"
                       _dark={{ color: 'gray.200' }}
                       textTransform="capitalize"
@@ -70,12 +70,12 @@ const Header: React.FC = () => {
                 )
               )}
               <Link to="/login">
-                <Button colorScheme="blue" variant="outline">
+                <Button colorScheme="blue" variant="outline" mx={2} px={6} py={4}>
                   Войти
                 </Button>
               </Link>
               <Link to="/signup">
-                <Button colorScheme="blue">
+                <Button colorScheme="blue" mx={2} px={6} py={4}>
                   Зарегистрироваться
                 </Button>
               </Link>

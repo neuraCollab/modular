@@ -8,6 +8,8 @@ import {
 } from "@choc-ui/chakra-autocomplete";
 
 const FindPerson = () => {
+
+  
     const people = [
       { name: "Dan Abramov", image: "https://bit.ly/dan-abramov" },
       { name: "Kent Dodds", image: "https://bit.ly/kent-c-dodds" },
@@ -19,11 +21,8 @@ const FindPerson = () => {
     return (
       <Flex
         boxSize="full"
-        h="100vh"
-        pos="absolute"
         bg={"gray.400"}
         _dark={{ bg: "gray.600" }}
-        p={30}
         justifyContent="center"
       >
         <AutoComplete rollNavigation>
@@ -42,6 +41,7 @@ const FindPerson = () => {
             ))}
           </AutoCompleteList>
         </AutoComplete>
+        
       </Flex>
     );
   };

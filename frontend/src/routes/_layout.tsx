@@ -1,4 +1,4 @@
-import { Flex, Spinner } from "@chakra-ui/react"
+import { Box, Flex, Spinner, useColorModeValue } from "@chakra-ui/react"
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
 
 import Sidebar from "../components/Common/Sidebar"
@@ -17,6 +17,9 @@ export const Route = createFileRoute("/_layout")({
 })
 
 function Layout() {
+
+  const bgColor = useColorModeValue("ui.light", "ui.dark")
+  const secBgColor = useColorModeValue("ui.secondary", "ui.darkSlate")
   const { isLoading } = useAuth()
 
   return (
@@ -29,7 +32,24 @@ function Layout() {
             <Spinner size="xl" color="ui.main" />
           </Flex>
         ) : (
-          <Outlet />
+
+          // <Box
+          //   bg={bgColor}
+          //   p={3}
+          //   // h="100"
+          //   // w={"100%"}
+          //   // top="0"
+          // >
+          //   <Box
+          //     // justify="space-between"
+          //     bg={secBgColor}
+          //     p={4}
+          //     borderRadius={12}
+          //   >
+
+              <Outlet />
+          //   {/* </Bo>
+          // </Box> */}
         )}
         <UserMenu />
       </Flex>

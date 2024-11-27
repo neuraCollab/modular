@@ -6,6 +6,7 @@ import {
   Heading,
   Button,
   chakra,
+  Text
 } from '@chakra-ui/react';
 import { Link } from '@tanstack/react-router';
 
@@ -38,6 +39,9 @@ const Feature: React.FC = () => {
               Час
             </chakra.span>
           </Heading>
+          <Text fontSize={["1xl", '2xl']} color="white" mt={4} mb={6} ml={4} mr={4} maxW={"70%"}>
+        Discover the best solutions tailored to your needs. Whether you're a job seeker or an employer, we have a range of services to help you succeed.
+      </Text>
           <Link to="/signup">
             <Button
               colorScheme="blue"

@@ -61,17 +61,17 @@ export default function SmallWithLogoLeft() {
   return (
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}>
-      <Container
-        as={Stack}
-        maxW={'6xl'}
-        py={4}
+      color={useColorModeValue('gray.700', 'gray.200')}
+      width="100%"
+      py={4}>
+      <Stack
         direction={{ base: 'column', md: 'row' }}
         spacing={4}
         justify={{ base: 'center', md: 'space-between' }}
-        align={{ base: 'center', md: 'center' }}>
-        <Logo />
-        <Text>© 2022 Chakra Templates. All rights reserved</Text>
+        align={{ base: 'center', md: 'center' }}
+        px={4}>
+        <Text>Logo Placeholder</Text>
+        <Text>© 2024 Созданно neuraCollab. Ищите на github</Text>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'#'}>
             <FaTwitter />
@@ -83,7 +83,7 @@ export default function SmallWithLogoLeft() {
             <FaInstagram />
           </SocialButton>
         </Stack>
-      </Container>
+      </Stack>
     </Box>
   )
 }
