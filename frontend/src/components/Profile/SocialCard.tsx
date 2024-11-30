@@ -44,7 +44,15 @@ const SocialProfileSimple = () => {
         </Text>{' '}
         me in your posts
       </Text>
-      <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
+      <Stack
+        align="center"
+        justify="center"
+        direction="row"
+        mt={6}
+        wrap="wrap" // Позволяем перенос тегов
+        overflow="hidden" // Скрываем теги, которые выходят за рамки контейнера
+        maxW="100%" // Ограничиваем ширину контейнера
+      >
         <Badge px={2} py={1} bg={useColorModeValue('gray.50', 'gray.800')} fontWeight={'400'}>
           #art
         </Badge>

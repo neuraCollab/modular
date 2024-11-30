@@ -15,10 +15,11 @@ const items = [
 ]
 
 interface SidebarItemsProps {
+  isExpanded?: boolean,
   onClose?: () => void
 }
 
-const SidebarItems = ({ onClose }: SidebarItemsProps) => {
+const SidebarItems = ({ onClose, isExpanded }: SidebarItemsProps) => {
   const queryClient = useQueryClient()
   const textColor = useColorModeValue("ui.main", "ui.light")
   const bgActive = useColorModeValue("#E2E8F0", "#4A5568")
@@ -45,7 +46,7 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
       onClick={onClose}
     >
       <Icon as={icon} alignSelf="center" />
-      <Text ml={2}>{title}</Text>
+      {!isExpanded && <Text ml={2}>{title}</Text>}
     </Flex>
   ))
 

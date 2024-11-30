@@ -10,8 +10,9 @@ import {
   Image,
   Text,
   useColorModeValue,
-  useDisclosure,
-} from "@chakra-ui/react"
+  useDisclosure, Button, Icon
+} from "@chakra-ui/react";
+import { FiChevronsLeft } from "react-icons/fi";
 import { useQueryClient } from "@tanstack/react-query"
 import { FiLogOut, FiMenu } from "react-icons/fi"
 
@@ -19,6 +20,7 @@ import Logo from "/assets/images/fastapi-logo.svg"
 import type { UserPublic } from "../../client"
 import useAuth from "../../hooks/useAuth"
 import SidebarItems from "./SidebarItems"
+import { useState } from "react"
 
 const Sidebar = () => {
   const queryClient = useQueryClient()
@@ -28,6 +30,11 @@ const Sidebar = () => {
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { logout } = useAuth()
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   const handleLogout = async () => {
     logout()
@@ -35,6 +42,7 @@ const Sidebar = () => {
 
   return (
     <>
+
       {/* Mobile */}
       <IconButton
         onClick={onOpen}
@@ -78,37 +86,66 @@ const Sidebar = () => {
 
       {/* Desktop */}
       <Box
-        bg={bgColor}
-        p={3}
-        h="100vh"
-        position="sticky"
-        top="0"
-        display={{ base: "none", md: "flex" }}
+      bg={isExpanded ? "transparent" : "gray.800"} // Изменяем фон, если свернуто
+      p={3}
+      h="100vh"
+      position="sticky"
+      top="0"
+      display={{ base: "none", md: "flex" }}
+      transition="width 0.3s ease" // Плавная анимация изменения ширины
+      w={isExpanded ? "60px" : "250px"} // Ширина сайдбара
+    >
+      <Flex
+        flexDir="column"
+        justify="space-between"
+        bg={isExpanded ? "none" : "gray.700"}
+        p={4}
+        borderRadius={12}
+        position="relative"
+        h="100%"
       >
-        <Flex
-          flexDir="column"
-          justify="space-between"
-          bg={secBgColor}
-          p={4}
-          borderRadius={12}
-        >
-          <Box>
+        {/* Кнопка-стрелочка */}
+        <IconButton
+          aria-label="Toggle sidebar"
+          icon={<FiChevronsLeft  />}
+          position="absolute"
+          top="10px"
+          right="-15px"
+          onClick={toggleSidebar}
+          bg="gray.600"
+          color="white"
+          borderRadius="full"
+          _hover={{ bg: "gray.500" }}
+          transition="transform 0.5s ease"
+          transform={`rotate(${isExpanded ? "180deg" : "0deg"})`} // Вращение стрелки
+        />
+
+        {/* Логотип и пункты меню */}
+        {!isExpanded && (
+          <Box
+          opacity={!isExpanded ? 1 : 0} // Управление прозрачностью
+          visibility={!isExpanded ? "visible" : "hidden"} // Управление видимостью
+          transition="opacity 0.7s ease, visibility 0.3s ease"
+          >
             <Image src={Logo} alt="Logo" w="180px" maxW="2xs" p={6} />
             <SidebarItems />
           </Box>
-          {currentUser?.email && (
-            <Text
-              color={textColor}
-              noOfLines={2}
-              fontSize="sm"
-              p={2}
-              maxW="180px"
-            >
-              Logged in as: {currentUser.email}
-            </Text>
-          )}
-        </Flex>
-      </Box>
+        )}
+
+        {/* Почта текущего пользователя */}
+        {!isExpanded && currentUser?.email && (
+          <Text
+            color="white"
+            noOfLines={2}
+            fontSize="sm"
+            p={2}
+            maxW="180px"
+          >
+            Logged in as: {currentUser.email}
+          </Text>
+        )}
+      </Flex>
+    </Box>
     </>
   )
 }

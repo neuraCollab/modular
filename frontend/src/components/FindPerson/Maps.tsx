@@ -49,7 +49,7 @@ const Maps = () => {
   };
 
   return (
-    <Box width={"100%"}> 
+    <Box display={"flex"} width={"100%"} alignItems={"center"} justifyContent={"center"} m={"auto"}> 
       <Map
       width={"100%"}
         defaultState={{ center: [59.9342802, 30.3350986], zoom: 12 }} // Centered on Saint Petersburg
