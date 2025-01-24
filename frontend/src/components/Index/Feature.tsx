@@ -34,9 +34,9 @@ const Feature: React.FC = () => {
             color="white"
             textTransform="uppercase"
           >
-            Найдите дедушку на {' '}
+            Find {' '}
             <chakra.span color="blue.400" textDecor="underline">
-              Час
+              Yourself
             </chakra.span>
           </Heading>
           <Text fontSize={["1xl", '2xl']} color="white" mt={4} mb={6} ml={4} mr={4} maxW={"70%"}>
@@ -48,7 +48,7 @@ const Feature: React.FC = () => {
               textTransform="uppercase"
               w="fit-content"
             >
-              Зарегестрироваться
+              Sign up
             </Button>
           </Link>
 

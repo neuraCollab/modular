@@ -71,7 +71,7 @@ export default function SmallWithLogoLeft() {
         align={{ base: 'center', md: 'center' }}
         px={4}>
         <Text>Logo Placeholder</Text>
-        <Text>© 2024 Созданно neuraCollab. Ищите на github</Text>
+        <Text>© 2024 Created by neuraCollab. Find my github</Text>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'#'}>
             <FaTwitter />

@@ -27,12 +27,12 @@ const Form1: React.FC<{ control: any }> = ({ control }) => {
   return (
     <>
       <Heading w="100%" textAlign="center" fontWeight="normal" mb="2%">
-        Заполните небольшую анкету
+        Multistem form
       </Heading>
       <Flex>
         <FormControl mr="5%">
           <FormLabel htmlFor="firstName" fontWeight="normal">
-           Имя 
+           Name 
           </FormLabel>
           <Controller
             name="firstName"
@@ -43,7 +43,7 @@ const Form1: React.FC<{ control: any }> = ({ control }) => {
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="lastName" fontWeight="normal">
-            Фамилия
+            Last Name
           </FormLabel>
           <Controller
             name="lastName"
@@ -55,7 +55,7 @@ const Form1: React.FC<{ control: any }> = ({ control }) => {
       </Flex>
       <FormControl mt="2%">
         <FormLabel htmlFor="email" fontWeight="normal">
-          Почта
+          Email
         </FormLabel>
         <Controller
           name="email"
@@ -63,11 +63,11 @@ const Form1: React.FC<{ control: any }> = ({ control }) => {
           defaultValue=""
           render={({ field }) => <Input {...field} id="email" type="email" />}
         />
-        <FormHelperText>Мы никогда не разглашаем вашу почту.</FormHelperText>
+        <FormHelperText>bla bla?</FormHelperText>
       </FormControl>
       <FormControl mt="2%">
         <FormLabel htmlFor="password" fontWeight="normal">
-          Пароль
+          Password
         </FormLabel>
         <InputGroup size="md">
           <Controller
@@ -86,7 +86,7 @@ const Form1: React.FC<{ control: any }> = ({ control }) => {
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? 'Спрятать' : 'Показать'}
+              {show ? 'Hide' : 'Show'}
             </Button>
           </InputRightElement>
         </InputGroup>
@@ -99,11 +99,11 @@ const Form2: React.FC<{ control: any }> = ({ control }) => {
   return (
     <>
       <Heading w="100%" textAlign="center" fontWeight="normal" mb="2%">
-        Детали
+        Details
       </Heading>
       <FormControl>
         <FormLabel htmlFor="country" fontWeight="md">
-          Страна / регион
+          Country / region
         </FormLabel>
         <Controller
           name="country"
@@ -111,16 +111,16 @@ const Form2: React.FC<{ control: any }> = ({ control }) => {
           defaultValue=""
           render={({ field }) => (
             <Select {...field} id="country" placeholder="Выберите страну">
-              <option value="RU">Россия</option>
-              <option value="KZ">Казахстан</option>
-              <option value="BL">Белорусь</option>
+              <option value="RU">Russia</option>
+              <option value="KZ">Kazakstan</option>
+              <option value="BL">United State</option>
             </Select>
           )}
         />
       </FormControl>
       <FormControl mt="2%">
         <FormLabel htmlFor="streetAddress" fontWeight="md">
-          Адрес улица
+          Adress
         </FormLabel>
         <Controller
           name="streetAddress"
@@ -132,7 +132,7 @@ const Form2: React.FC<{ control: any }> = ({ control }) => {
       <SimpleGrid columns={2} spacing={4} mt="2%">
         <FormControl>
           <FormLabel htmlFor="city" fontWeight="md">
-            Город
+            Sity
           </FormLabel>
           <Controller
             name="city"
@@ -143,7 +143,7 @@ const Form2: React.FC<{ control: any }> = ({ control }) => {
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="state" fontWeight="md">
-            Деревня
+            State
           </FormLabel>
           <Controller
             name="state"
@@ -154,7 +154,7 @@ const Form2: React.FC<{ control: any }> = ({ control }) => {
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="postalCode" fontWeight="md">
-            Почтовый код
+            Post code
           </FormLabel>
           <Controller
             name="postalCode"
@@ -172,7 +172,7 @@ const Form3: React.FC<{ control: any }> = ({ control }) => {
   return (
     <>
       <Heading w="100%" textAlign="center" fontWeight="normal" mb="2%">
-        Социальная информация
+        Social information
       </Heading>
       <SimpleGrid columns={1} spacing={6}>
         <FormControl>
@@ -191,17 +191,17 @@ const Form3: React.FC<{ control: any }> = ({ control }) => {
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="about" fontWeight="md">
-            О себе
+            About
           </FormLabel>
           <Controller
             name="about"
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <Textarea {...field} id="about" placeholder="Короткая информация о себе..." />
+              <Textarea {...field} id="about" placeholder="Short information about you..." />
             )}
           />
-          <FormHelperText>URLs это гиперссылки.</FormHelperText>
+          <FormHelperText>URLs is hyperlink</FormHelperText>
         </FormControl>
       </SimpleGrid>
     </>
@@ -249,7 +249,7 @@ const MultistepForm: React.FC = () => {
             isDisabled={step === 1}
             colorScheme="teal"
           >
-            Назад
+            Back
           </Button>
           {step < 3 ? (
             <Button
@@ -259,11 +259,11 @@ const MultistepForm: React.FC = () => {
               }}
               colorScheme="teal"
             >
-              Вперед
+              Next
             </Button>
           ) : (
             <Button type="submit" colorScheme="green">
-              Отправить
+              Submit
             </Button>
           )}
         </Flex>

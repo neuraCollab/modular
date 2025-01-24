@@ -1,0 +1,6 @@
+-videochat
+-text chat
+-biography
+-cards
+-yandex maps
+-main page + (make that when logged in, urls like login and sign up worked)

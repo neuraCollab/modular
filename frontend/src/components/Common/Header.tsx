@@ -48,7 +48,7 @@ const Header: React.FC = () => {
             </Flex>
 
             <Box display={['none', 'flex']} alignItems={{ md: 'center' }}>
-              {[{ linkName: 'Личный кабинет', url: '/profile' }].map(
+              {[{ linkName: 'Profile', url: '/profile' }].map(
                 ({ linkName, url }) => (
                   <Link key={linkName} to={url}>
                     <chakra.a
@@ -71,12 +71,12 @@ const Header: React.FC = () => {
               )}
               <Link to="/login">
                 <Button colorScheme="blue" variant="outline" mx={2} px={6} py={4}>
-                  Войти
+                 Sign in 
                 </Button>
               </Link>
               <Link to="/signup">
                 <Button colorScheme="blue" mx={2} px={6} py={4}>
-                  Зарегистрироваться
+                  Sign up
                 </Button>
               </Link>
             </Box>

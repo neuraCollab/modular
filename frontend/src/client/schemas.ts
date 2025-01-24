@@ -232,6 +232,10 @@ export const $UserCreate = {
       type: "boolean",
       default: false,
     },
+    // user_type: {
+    //   type: "string",
+    //   default: "user"
+    // },
     full_name: {
       type: "any-of",
       contains: [
